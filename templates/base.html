@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аспект</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+<!--    <link rel="stylesheet" href="../static/font/fonts.css">-->
+<!--    <link rel="stylesheet" href="../static/css/style.css">-->
+    <!--style for nav-->
+    <style>
+        .navbar-brand {
+            width: 150px;
+            content: url("../static/img/logo.png");
+            position: absolute;
+
+        }
+
+        @media screen and (max-width: 992px) {
+            .navbar-brand {
+                width: 40px;
+                content: url("../static/img/logo-min.png");
+                position: absolute;
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+        <a class="navbar-brand col-1" href="#"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse justify-content-md-center collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Выпуски</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link text-dark dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                       data-bs-toggle="dropdown" aria-expanded="false">
+                        Рубрики
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#">Феномен</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Расскажите нам</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="#">О нас</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div style="padding-top: 50px;"></div>
+
+{% block content %}
+{% endblock %}
+
+<div class="container">
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+        <div class="row">
+            <div class="col-12 col-md">
+                <img class="mb-2" src="../static/img/logo.png" alt="Аспект" width="240">
+                <small class="d-block mb-3 text-muted">&copy;2021</small>
+<!--                <img class="mb-2" src="../static/img/ru.svg" alt="Сделано в России" width="24">-->
+            </div>
+            <div class="col-6 col-md">
+                <h5>Контент</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="link-secondary" href="#">Выпуски</a></li>
+                    <li><a class="link-secondary" href="#">Феномен</a></li>
+                    <li><a class="link-secondary" href="#">Расскажите нам</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>О нас</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="link-secondary" href="#">Команда</a></li>
+                    <li><a class="link-secondary" href="#">Штаб квартира</a></li>
+                    <li><a class="link-secondary" href="#">Мерч</a></li>
+                    <li><a class="link-secondary" href="#">Сотрудничество</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-md">
+                <h5>Мы в соцсетях</h5>
+                <ul class="list-unstyled text-small">
+                    <li><a class="link-secondary" href="#">Инста</a></li>
+                    <li><a class="link-secondary" href="#">ТикТок</a></li>
+                    <li><a class="link-secondary" href="#">Вместо текста будут иконки)</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
