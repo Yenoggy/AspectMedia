@@ -11,11 +11,19 @@
 
 }
 
+#space {
+    min-height: 50px;
+}
+
 @media screen and (max-width: 992px) {
     .navbar-brand {
         width: 40px;
         content: url("../static/img/logo-min.png");
-        position: absolute;
+        position: relative;
         margin-left: 0;
+    }
+
+    #space {
+        min-height: 64px;
     }
 }
