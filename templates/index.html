@@ -70,6 +70,7 @@
                         ✅
                         {% endif %}</h5>
                     <p class="card-text">{{ article.body }}</p>
+                    <a class="btn btn-outline-secondary" href="{{ url_for('get_article', article_id=loop.index) }}">Читать дальше</a>
                 </div>
                 <div class="card-footer">
                     <small class="text-muted">{{ article.name }}, {{ article.time }}</small>
