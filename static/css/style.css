@@ -6,7 +6,7 @@
 
 .navbar-brand {
     width: 150px;
-    content: url("../static/img/logo.png");
+    content: url("../img/logo.png");
     position: absolute;
 
 }
@@ -18,7 +18,7 @@
 @media screen and (max-width: 992px) {
     .navbar-brand {
         width: 40px;
-        content: url("../static/img/logo-min.png");
+        content: url("../img/logo-min.png");
         position: relative;
         margin-left: 0;
     }

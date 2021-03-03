@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ title }}</title>
     <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <!--style for nav-->
     <style>
@@ -57,11 +57,11 @@
 {% endblock %}
 
 <div class="container">
-    <footer class="pt-4 text-center text-lg-start my-md-5 pt-md-5 border-top">
+    <footer class="pt-4 text-center text-lg-start  border-top">
         <div class="row">
             <div class="col-lg-3 col-md-12 mb-md-0">
-                <img class="mb-2" src="../static/img/logo.png" alt="Аспект" width="240">
-                <img class="mb-2" src="../static/img/ru.svg" title="Сделано в России" width="24">
+                <img class="mb-2" src="{{ url_for('static', filename='img/logo.png') }}" alt="Аспект" width="240">
+                <img class="mb-2" src="{{ url_for('static', filename='img/ru.svg') }}" title="Сделано в России" width="24">
                 <small class="d-block mb-3 text-muted">&copy;2021</small>
             </div>
             <div class="col-lg-3 col-md-12 mb-md-0">
