@@ -38,14 +38,19 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li><a class="dropdown-item" href="#">Феномен</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
+<!--                        <li>-->
+<!--                            <hr class="dropdown-divider">-->
+<!--                        </li>-->
                         <li><a class="dropdown-item" href="#">Расскажите нам</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-dark" href="#">О нас</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" href="{{ url_for('auth') }}">
+                        Вход
+                    </a>
                 </li>
             </ul>
         </div>
@@ -57,7 +62,7 @@
 {% endblock %}
 
 <div class="container">
-    <footer class="pt-4 text-center text-lg-start  border-top">
+    <footer class="pt-4 text-center text-lg-start border-top">
         <div class="row">
             <div class="col-lg-3 col-md-12 mb-md-0">
                 <img class="mb-2" src="{{ url_for('static', filename='img/logo.png') }}" alt="Аспект" width="240">

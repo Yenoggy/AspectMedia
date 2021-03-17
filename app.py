@@ -1,11 +1,18 @@
 from flask import Flask, render_template
 from articles import articles
+import sqlite3
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def master():
+    con = sqlite3.connect('data.db')
+    cur = con.cursor()
+    cur.execute('SELECT articles.id, articles.title, articles.announcment, users.name FROM articles INNER JOIN users ON articles.user_id = users.id')
+    articles = cur.fetchall()
+    con.close()
+    articles = [{'id': article[0], 'title': article[1], 'body': article[2]}]
     return render_template('index.html',
                            title="Аспект",
                            articles=articles)
