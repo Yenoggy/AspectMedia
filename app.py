@@ -9,10 +9,10 @@ app = Flask(__name__)
 def master():
     con = sqlite3.connect('data.db')
     cur = con.cursor()
-    cur.execute('SELECT articles.id, articles.title, articles.announcment, users.name FROM articles INNER JOIN users ON articles.user_id = users.id')
+    cur.execute('SELECT articles.id, articles.title, articles.announcement, users.name FROM articles INNER JOIN users ON articles.user_id = users.id')
     articles = cur.fetchall()
     con.close()
-    articles = [{'id': article[0], 'title': article[1], 'body': article[2]}]
+    articles = [{'id': article[0], 'title': article[1], 'body': article[2]} for article in articles]
     return render_template('index.html',
                            title="Аспект",
                            articles=articles)
