@@ -15,53 +15,53 @@
             min-height: 500px;
         }
     </style>
-    <div class="container">
-
-        <div>
-            <h1>Популярные посты</h1>
-            <div id="carouselCaptions" class="carousel slide" data-bs-ride="carousel">
-                <ol class="carousel-indicators">
-                    <li data-bs-target="#carouselCaptions" data-bs-slide-to="0" class="active"></li>
-                    <li data-bs-target="#carouselCaptions" data-bs-slide-to="1"></li>
-                    <li data-bs-target="#carouselCaptions" data-bs-slide-to="2"></li>
-                </ol>
-                <div class="carousel-inner rounded">
-                    <div class="carousel-item active">
-                        <img src="{{ url_for('static', filename='img/content.png') }}" class="d-block w-100"
-                             alt="...">
-                        <div class="carousel-caption d-block">
-                            <h5>{{ articles[0]['title'] }}</h5>
-                            <p>{{ articles[0]['body'] }}</p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="{{ url_for('static', filename='img/content.jpg') }}" class="d-block w-100"
-                             alt="...">
-                        <div class="carousel-caption d-block">
-                            <h5>{{ articles[1]['title'] }}</h5>
-                            <p>{{ articles[1]['body'] }}</p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="{{ url_for('static', filename='img/content.png') }}" class="d-block w-100"
-                             alt="...">
-                        <div class="carousel-caption d-block">
-                            <h5>{{ articles[2]['title'] }}</h5>
-                            <p>{{ articles[2]['body'] }}</p>
-                        </div>
-                    </div>
-                </div>
-                <a class="carousel-control-prev" href="#carouselCaptions" role="button" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Предыдущее</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselCaptions" role="button" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Следующее</span>
-                </a>
-            </div>
-        </div>
-    </div>
+{#    <div class="container">#}
+{##}
+{#        <div>#}
+{#            <h1>Популярные посты</h1>#}
+{#            <div id="carouselCaptions" class="carousel slide" data-bs-ride="carousel">#}
+{#                <ol class="carousel-indicators">#}
+{#                    <li data-bs-target="#carouselCaptions" data-bs-slide-to="0" class="active"></li>#}
+{#                    <li data-bs-target="#carouselCaptions" data-bs-slide-to="1"></li>#}
+{#                    <li data-bs-target="#carouselCaptions" data-bs-slide-to="2"></li>#}
+{#                </ol>#}
+{#                <div class="carousel-inner rounded">#}
+{#                    <div class="carousel-item active">#}
+{#                        <img src="{{ url_for('static', filename='img/content.png') }}" class="d-block w-100"#}
+{#                             alt="...">#}
+{#                        <div class="carousel-caption d-block">#}
+{#                            <h5>{{ articles[0]['title'] }}</h5>#}
+{#                            <p>{{ articles[0]['body'] }}</p>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="carousel-item">#}
+{#                        <img src="{{ url_for('static', filename='img/content.jpg') }}" class="d-block w-100"#}
+{#                             alt="...">#}
+{#                        <div class="carousel-caption d-block">#}
+{#                            <h5>{{ articles[1]['title'] }}</h5>#}
+{#                            <p>{{ articles[1]['body'] }}</p>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    <div class="carousel-item">#}
+{#                        <img src="{{ url_for('static', filename='img/content.png') }}" class="d-block w-100"#}
+{#                             alt="...">#}
+{#                        <div class="carousel-caption d-block">#}
+{#                            <h5>{{ articles[2]['title'] }}</h5>#}
+{#                            <p>{{ articles[2]['body'] }}</p>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <a class="carousel-control-prev" href="#carouselCaptions" role="button" data-bs-slide="prev">#}
+{#                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>#}
+{#                    <span class="visually-hidden">Предыдущее</span>#}
+{#                </a>#}
+{#                <a class="carousel-control-next" href="#carouselCaptions" role="button" data-bs-slide="next">#}
+{#                    <span class="carousel-control-next-icon" aria-hidden="true"></span>#}
+{#                    <span class="visually-hidden">Следующее</span>#}
+{#                </a>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
 
     </div>
 
@@ -74,15 +74,12 @@
                     <img src="{{ url_for('static', filename='img/content.png') }}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{ article.title }}
-                            {% if article.is_verified %}
-                            ✅
-                            {% endif %}</h5>
                         <p class="card-text">{{ article.body }}</p>
                         <a class="btn btn-outline-secondary" href="{{ url_for('get_article', article_id=loop.index) }}">Читать
                             дальше</a>
                     </div>
                     <div class="card-footer">
-                        <small class="text-muted">{{ article.name }}, {{ article.time }}</small>
+                        <small class="text-muted">{# {{ article.name }}, {{ article.time }} #}Автор, дата</small>
                     </div>
                 </div>
             </div>
