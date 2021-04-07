@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+    Create article
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+    <div class="row justify-content-center">
+        <div class="row-8">
+        <h1>New Article</h1>
+
+        {{ wtf.quick_form(form, buttom_map={'submit':'success'}) }}
+{#        <form action="{{ url_for('new_article') }}" method="post">#}
+{#            {{ form.csrf_token }}#}
+{#            <p>{{ form.title.label }} {{ form.title() }}</p>#}
+{#            <p>{{ form.body.label }} {{ form.body() }}</p>#}
+{#            <p>{{ form.submit() }}</p>#}
+{#        </form>#}
+            </div>
+    </div>
+    </div>
+{% endblock %}
