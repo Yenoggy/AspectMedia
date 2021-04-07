@@ -15,6 +15,7 @@ db.app = app
 db.init_app(app)
 migrate = Migrate(app, db)
 
+# Главная
 @app.route('/')
 def master():
     articles: List[Article] = Article.query.all()
@@ -22,26 +23,25 @@ def master():
                            title="Аспект",
                            articles=articles)
 
+# Вход
+@app.route('/auth')
+def auth():
+    return render_template('auth.html', title="Вход")
+
+# Панель администратора
+@app.route('/admin')
+def admin_panel():
+    return render_template('admin.html', title='Панель администратора')
+
+# ==РАБОТА С СТАТЬЯМИ==
+# Подробный просмотр статьи
 @app.route('/articles/<int:article_id>')
 def get_article(article_id):
     articles: Article = Article.query.filter_by(id=article_id).first()
     return render_template('article.html', title=articles.title, articles=articles)
 
-@app.route('/articles/<int:article_id>/edit', methods=('GET', 'POST'))
-def edit_article(article_id):
-    form = ArticleForm
-    article = Article.query.filter_by(id=article_id).first()
-    if form.validate_on_submit():
-        article.title = form.title.data
-        article.body = form.body.data
-        article.is_verified = form.is_verified.data
-        db.session.add(article)
-        db.session.commit()
-        return redirect(url_for("get_article", article_id=article.id))
 
-    return render_template('edit_article.html', form=form)
-
-
+# Написание новой статьи
 @app.route('/articles/new', methods=('GET', 'POST') )
 def new_article():
     form = ArticleForm()
@@ -54,18 +54,32 @@ def new_article():
         return redirect(url_for('get_article', article_id=article.id))
     return render_template('new_article.html', form=form)
 
+# Редактирование статьи
+@app.route('/articles/<int:article_id>/edit', methods=["GET", "POST"])
+def edit_article(article_id):
+    form = ArticleForm()
+    article = Article.query.filter_by(id=article_id).first()
+
+    if form.validate_on_submit():
+        article.title = form.title.data
+        article.body = form.body.data
+        db.session.add(article)
+        db.session.commit()
+        return redirect(url_for("get_article", article_id=article.id))
+
+    form.title.data = article.title
+    form.body.data = article.body
+    return render_template('edit_article.html', form=form)
+
+# Поиск статей
 @app.route('/search')
 def search_article():
     q = request.args.get('q', '')
-    articles: List[Article] = Article.query.filter(Article.title.like(f'%{q}%').all | Article.body.like(f'%{q}%').all)
+    articles: List[Article] = Article.query.filter(Article.title.like(f'%{q}%') | Article.body.like(f'%{q}%')).all()
     return render_template('index.html',
                            title='Аспект',
                            articles=articles)
 
-@app.route('/auth')
-def auth():
-    return render_template('auth.html', title="Вход")
-
-
+# Запуск приложения
 if __name__ == '__main__':
     app.run()
