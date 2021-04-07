@@ -5,15 +5,15 @@ from flask_migrate import Migrate
 from forms import ArticleForm
 from flask_bootstrap import Bootstrap
 
+
 app = Flask(__name__)
 Bootstrap(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///D:/Study/ITMO Project/data.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.sqlite'
 app.config['SECRET_KEY'] = 'AWWWWW'
 db.app = app
 db.init_app(app)
 migrate = Migrate(app, db)
-
 
 @app.route('/')
 def master():
