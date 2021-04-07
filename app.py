@@ -8,7 +8,7 @@ from flask_bootstrap import Bootstrap
 app = Flask(__name__)
 Bootstrap(app)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///D:/Study/ITMO Project/test.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///D:/Study/ITMO Project/data.sqlite'
 app.config['SECRET_KEY'] = 'AWWWWW'
 db.app = app
 db.init_app(app)
