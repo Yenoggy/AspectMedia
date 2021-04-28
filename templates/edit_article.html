@@ -1,24 +1,433 @@
+{#<!DOCTYPE html>#}
+{#<html>#}
+{#  <head>#}
+{#    <meta charset="utf-8">#}
+{#    <title>Flask-SimpleMDE example</title>#}
+{#    {{ simplemde.css }}#}
+{#    {{ simplemde.js }}#}
+{#  </head>#}
+{#  <body>#}
+{#    <form action="/articles/new" method="post">#}
+{#    <textarea>#}
+{#    Обычненький такой текст тут#}
+{#    </textarea>#}
+{#    <button onclick="">Save</button>#}
+{#    </form>#}
+{#    {{ simplemde.load }}#}
+{#  </body>#}
+{#  <script src="{{ url_for('static', filename='script.js') }}"></script>#}
+{#</html>#}
+
+
 {% extends 'base.html' %}
-{% import "bootstrap/wtf.html" as wtf %}
-
-{% block title %}
-   Edit
-{% endblock %}
-
 {% block content %}
-    <div class="container">
-    <div class="row justify-content-center">
-        <div class="row-8">
-        <h1>New Article</h1>
 
-        {{ wtf.quick_form(form, button_map={'submit': 'primary'}) }}
-{#        <form action="{{ url_for('new_article') }}" method="post">#}
-{#            {{ form.csrf_token }}#}
-{#            <p>{{ form.title.label }} {{ form.title() }}</p>#}
-{#            <p>{{ form.body.label }} {{ form.body() }}</p>#}
-{#            <p>{{ form.submit() }}</p>#}
-{#        </form>#}
-            </div>
+
+    <div class="container">
+        <div id="article"></div>
     </div>
+
+    <div class="ce-example__button" id="saveButton">
+        editor.save()
     </div>
+
+    <div class="ce-example__statusbar">
+        Readonly:
+        <b id="readonly-state">
+            Off
+        </b>
+        <div class="ce-example__statusbar-button" id="toggleReadOnlyButton">
+            toggle
+        </div>
+    </div>
+    <div class="ce-example__output">
+        <pre class="ce-example__output-content" id="output"></pre>
+
+    </div>
+    <!-- Load Tools -->
+    <!--
+     You can upload Tools to your project's directory and connect them by relative links.
+     Also you can load each Tool from CDN or use NPM/Yarn packages.
+     Read more at Tools Connection doc:
+     https://editorjs.io/getting-started#tools-connection
+     -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script><!-- Header -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/simple-image@latest"></script><!-- Image -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest"></script><!-- Delimiter -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/list@latest"></script><!-- List -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/checklist@latest"></script><!-- Checklist -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/quote@latest"></script><!-- Quote -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/code@latest"></script><!-- Code -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/embed@latest"></script><!-- Embed -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/table@latest"></script><!-- Table -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/link@latest"></script><!-- Link -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/warning@latest"></script><!-- Warning -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/marker@latest"></script><!-- Marker -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest"></script><!-- Inline Code -->
+
+    <!-- Load Editor.js's Core -->
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest"></script>
+
+    <!-- Initialization -->
+    <script>
+
+
+        {#let editor = new EditorJS({#}
+        {##}
+        {#    readOnly: false,#}
+        {##}
+        {#    holder: 'editorjs',#}
+        {##}
+        {#    /**#}
+        {#     * Common Inline Toolbar settings#}
+        {#     * - if true (or not specified), the order from 'tool' property will be used#}
+        {#     * - if an array of tool names, this order will be used#}
+        {#     */#}
+        {#    // inlineToolbar: ['link', 'marker', 'bold', 'italic'],#}
+        {#    // inlineToolbar: true,#}
+        {##}
+        {#    /**#}
+        {#     * Tools list#}
+        {#     */#}
+        {#    tools: {#}
+        {#        /**#}
+        {#         * Each Tool is a Plugin. Pass them via 'class' option with necessary settings {@link docs/tools.md}#}
+        {#         */#}
+        {#        header: {#}
+        {#            class: Header,#}
+        {#            inlineToolbar: ['marker', 'link'],#}
+        {#            config: {#}
+        {#                placeholder: 'Header'#}
+        {#            },#}
+        {#            shortcut: 'CMD+SHIFT+H'#}
+        {#        },#}
+        {##}
+        {#        /**#}
+        {#         * Or pass class directly without any configuration#}
+        {#         */#}
+        {#        image: {#}
+        {#            class: ImageTool,#}
+        {#            config: {#}
+        {#                endpoints: {#}
+        {#                    byFile: 'http: // localhost: 5000 / uploadFile',  // конечная точка загрузчика вашего внутреннего файла#}
+        {#                    byUrl: 'http: // localhost: 5000 / fetchUrl',  // Ваша конечная точка, обеспечивающая загрузку по URL-адресу#}
+        {#                }#}
+        {#            }#}
+        {##}
+        {##}
+        {#            list: {#}
+        {#                class: List,#}
+        {#                inlineToolbar: true,#}
+        {#                shortcut: 'CMD+SHIFT+L'#}
+        {#            },#}
+        {##}
+        {#            checklist: {#}
+        {#                class: Checklist,#}
+        {#                inlineToolbar: true,#}
+        {#            },#}
+        {##}
+        {#            quote: {#}
+        {#                class: Quote,#}
+        {#                inlineToolbar: true,#}
+        {#                config: {#}
+        {#                    quotePlaceholder: 'Enter a quote',#}
+        {#                    captionPlaceholder: 'Quote\'s author',#}
+        {#                },#}
+        {#                shortcut: 'CMD+SHIFT+O'#}
+        {#            },#}
+        {##}
+        {#            warning: Warning,#}
+        {##}
+        {#            marker: {#}
+        {#                class: Marker,#}
+        {#                shortcut: 'CMD+SHIFT+M'#}
+        {#            },#}
+        {##}
+        {#            code: {#}
+        {#                class: CodeTool,#}
+        {#                shortcut: 'CMD+SHIFT+C'#}
+        {#            },#}
+        {##}
+        {#            delimiter: Delimiter,#}
+        {##}
+        {#            inlineCode: {#}
+        {#                class: InlineCode,#}
+        {#                shortcut: 'CMD+SHIFT+C'#}
+        {#            },#}
+        {##}
+        {#            linkTool: LinkTool,#}
+        {##}
+        {#            embed: Embed,#}
+        {##}
+        {#            table: {#}
+        {#                class: Table,#}
+        {#                inlineToolbar: true,#}
+        {#                shortcut: 'CMD+ALT+T'#}
+        {#            },#}
+        {##}
+        {#        },#}
+        {##}
+        {#        /**#}
+        {#         * This Tool will be used as default#}
+        {#         */#}
+        {#        defaultBlock: 'paragraph',#}
+        {##}
+        {#        i18n: {#}
+        {#            /**#}
+        {#             * @type {I18nDictionary}#}
+        {#             */#}
+        {#            messages: {#}
+        {#                /**#}
+        {#                 * Other below: translation of different UI components of the editor.js core#}
+        {#                 */#}
+        {#                ui: {#}
+        {#                    "blockTunes": {#}
+        {#                        "toggler": {#}
+        {#                            "Click to tune": "Нажмите, чтобы настроить",#}
+        {#                            "or drag to move": "или перетащите"#}
+        {#                        },#}
+        {#                    },#}
+        {#                    "inlineToolbar": {#}
+        {#                        "converter": {#}
+        {#                            "Convert to": "Конвертировать в"#}
+        {#                        }#}
+        {#                    },#}
+        {#                    "toolbar": {#}
+        {#                        "toolbox": {#}
+        {#                            "Add": "Добавить"#}
+        {#                        }#}
+        {#                    }#}
+        {#                },#}
+        {##}
+        {#                /**#}
+        {#                 * Section for translation Tool Names: both block and inline tools#}
+        {#                 */#}
+        {#                toolNames: {#}
+        {#                    "Text": "Параграф",#}
+        {#                    "image": "Картинка",#}
+        {#                    "Heading": "Заголовок",#}
+        {#                    "List": "Список",#}
+        {#                    "Warning": "Примечание",#}
+        {#                    "Checklist": "Чеклист",#}
+        {#                    "Quote": "Цитата",#}
+        {#                    "Code": "Код",#}
+        {#                    "Delimiter": "Разделитель",#}
+        {#                    "Raw HTML": "HTML-фрагмент",#}
+        {#                    "Table": "Таблица",#}
+        {#                    "Link": "Ссылка",#}
+        {#                    "Marker": "Маркер",#}
+        {#                    "Bold": "Полужирный",#}
+        {#                    "Italic": "Курсив",#}
+        {#                    "InlineCode": "Моноширинный",#}
+        {#                },#}
+        {##}
+        {#                /**#}
+        {#                 * Section for passing translations to the external tools classes#}
+        {#                 */#}
+        {#                tools: {#}
+        {#                    /**#}
+        {#                     * Each subsection is the i18n dictionary that will be passed to the corresponded plugin#}
+        {#                     * The name of a plugin should be equal the name you specify in the 'tool' section for that plugin#}
+        {#                     */#}
+        {#                    "warning": { // <-- 'Warning' tool will accept this dictionary section#}
+        {#                        "Title": "Название",#}
+        {#                        "Message": "Сообщение",#}
+        {#                    },#}
+        {##}
+        {#                    /**#}
+        {#                     * Link is the internal Inline Tool#}
+        {#                     */#}
+        {#                    "link": {#}
+        {#                        "Add a link": "Вставьте ссылку"#}
+        {#                    },#}
+        {#                    /**#}
+        {#                     * The "stub" is an internal block tool, used to fit blocks that does not have the corresponded plugin#}
+        {#                     */#}
+        {#                    "stub": {#}
+        {#                        'The block can not be displayed correctly.': 'Блок не может быть отображен'#}
+        {#                    }#}
+        {#                },#}
+        {##}
+        {#                /**#}
+        {#                 * Section allows to translate Block Tunes#}
+        {#                 */#}
+        {#                blockTunes: {#}
+        {#                    /**#}
+        {#                     * Each subsection is the i18n dictionary that will be passed to the corresponded Block Tune plugin#}
+        {#                     * The name of a plugin should be equal the name you specify in the 'tunes' section for that plugin#}
+        {#                     *#}
+        {#                     * Also, there are few internal block tunes: "delete", "moveUp" and "moveDown"#}
+        {#                     */#}
+        {#                    "delete": {#}
+        {#                        "Delete": "Удалить"#}
+        {#                    },#}
+        {#                    "moveUp": {#}
+        {#                        "Move up": "Переместить вверх"#}
+        {#                    },#}
+        {#                    "moveDown": {#}
+        {#                        "Move down": "Переместить вниз"#}
+        {#                    }#}
+        {#                },#}
+        {#            }#}
+        {#        },#}
+        {##}
+        {#        /**#}
+        {#         * Initial Editor data#}
+        {#         */#}
+        {#        data: {#}
+        {#            {{ data|safe }}#}
+        {#        },#}
+        {#        onReady: function () {#}
+        {#            saveButton.click();#}
+        {#        },#}
+        {#        onChange: function () {#}
+        {#            console.log('something changed');#}
+        {#        }#}
+        {#    });#}
+
+        async function postData(url = '', data = {}) {
+            const response = await fetch(url, {
+                method: 'POST', // *GET, POST, PUT, DELETE, etc.
+                headers: {
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: JSON.stringify(data) // body data type must match "Content-Type" header
+            });
+            return await response.json(); // parses JSON response into native JavaScript objects
+        }
+
+        let editor = new EditorJS({
+
+            readOnly: false,
+
+            holder: 'article',
+
+            /**
+             * Common Inline Toolbar settings
+             * - if true (or not specified), the order from 'tool' property will be used
+             * - if an array of tool names, this order will be used
+             */
+            // inlineToolbar: ['link', 'marker', 'bold', 'italic'],
+            // inlineToolbar: true,
+
+            /**
+             * Tools list
+             */
+            tools: {
+                /**
+                 * Each Tool is a Plugin. Pass them via 'class' option with necessary settings {@link docs/tools.md}
+                 */
+                header: {
+                    class: Header,
+                    inlineToolbar: ['marker', 'link'],
+                    config: {
+                        placeholder: 'Header'
+                    },
+                    shortcut: 'CMD+SHIFT+H'
+                },
+
+                /**
+                 * Or pass class directly without any configuration
+                 */
+                image: SimpleImage,
+
+                list: {
+                    class: List,
+                    inlineToolbar: true,
+                    shortcut: 'CMD+SHIFT+L'
+                },
+
+                checklist: {
+                    class: Checklist,
+                    inlineToolbar: true,
+                },
+
+                quote: {
+                    class: Quote,
+                    inlineToolbar: true,
+                    config: {
+                        quotePlaceholder: 'Enter a quote',
+                        captionPlaceholder: 'Quote\'s author',
+                    },
+                    shortcut: 'CMD+SHIFT+O'
+                },
+
+                warning: Warning,
+
+                marker: {
+                    class: Marker,
+                    shortcut: 'CMD+SHIFT+M'
+                },
+
+                code: {
+                    class: CodeTool,
+                    shortcut: 'CMD+SHIFT+C'
+                },
+
+                delimiter: Delimiter,
+
+                inlineCode: {
+                    class: InlineCode,
+                    shortcut: 'CMD+SHIFT+C'
+                },
+
+                linkTool: LinkTool,
+
+                embed: Embed,
+
+                table: {
+                    class: Table,
+                    inlineToolbar: true,
+                    shortcut: 'CMD+ALT+T'
+                },
+
+            },
+
+            data: {
+                {{ data|safe }}
+
+            },
+
+        });
+
+                /**
+         * Saving button
+         */
+        const saveButton = document.getElementById('saveButton');
+
+        /**
+         * Toggle read-only button
+         */
+        const toggleReadOnlyButton = document.getElementById('toggleReadOnlyButton');
+        const readOnlyIndicator = document.getElementById('readonly-state');
+
+        /**
+         * Saving example
+         */
+        saveButton.addEventListener('click', function () {
+            editor.save().then((outputData) => {
+                postData('/articles/new/{{ article_id }}', outputData).then((data) => {
+                    console.log(data); // JSON data parsed by `response.json()` call
+                });
+            }).catch((error) => {
+                console.log('Saving failed: ', error)
+            });
+        });
+
+
+        /**
+         * Toggle read-only example
+         */
+        toggleReadOnlyButton.addEventListener('click', async () => {
+            const readOnlyState = await editor.readOnly.toggle();
+
+            readOnlyIndicator.textContent = readOnlyState ? 'On' : 'Off';
+        });
+
+    </script>
+
+
 {% endblock %}

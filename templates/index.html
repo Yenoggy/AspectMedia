@@ -74,7 +74,7 @@
                     <img src="{{ url_for('static', filename='img/content.png') }}" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">{{ article.title }}</h5>
-                        <p class="card-text">{{ article.body }}</p>
+                        <p class="card-text">{{ article.announcement }}</p>
                         <a class="btn btn-outline-secondary" href="{{ url_for('get_article', article_id=loop.index) }}">Читать
                             дальше</a>
                     </div>

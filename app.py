@@ -36,11 +36,8 @@ def auth():
 
 
 # Панель администратора
-@app.route('/admin')
-def admin_panel():
-    data = {'time': 1619017803724, 'blocks': [{'type': 'header', 'data': {'text': 'Главный заголовок текста', 'level': 1}}, {'type': 'paragraph', 'data': {'text': 'А это уже обычный абзац'}}, {'type': 'header', 'data': {'text': 'Не такой крутой заголовок, но тоже ничего', 'level': 3}}, {'type': 'list', 'data': {'style': 'unordered', 'items': ['Эта штука тоже огонь🔥🔥🔥', 'Звать ненумерованный список', 'Удобно что-то тут перечислять']}}, {'type': 'delimiter', 'data': {}}, {'type': 'paragraph', 'data': {'text': 'Здесь можно много чего наворотить. Предлагаю поиграться с редактором самостоятельно😏'}}, {'type': 'image', 'data': {'url': 'static/img/content.png', 'caption': 'Описание картинки', 'withBorder': True, 'withBackground': False, 'stretched': False}}], 'version': '2.20.2'}
-
-    return render_template('admin.html', title='Панель администратора', data=data)
+# @app.route('/admin')
+# def admin_panel():
 
 
 # ==РАБОТА С СТАТЬЯМИ==
@@ -69,25 +66,31 @@ def new_article(article_id):
         return json.dumps(results)
     with open('file.json', 'w') as f:
         json.dump(request.form, f)
-    return render_template('new_article.html')
+    return render_template('edit_article.html', article_id=article_id)
 
 
 # Редактирование статьи
 @app.route('/articles/<int:article_id>/edit', methods=["GET", "POST"])
 def edit_article(article_id):
-    form = ArticleForm()
-    article = Article.query.filter_by(id=article_id).first()
-
-    if form.validate_on_submit():
-        article.title = form.title.data
-        article.body = form.body.data
-        db.session.add(article)
-        db.session.commit()
-        return redirect(url_for("get_article", article_id=article.id))
-
-    form.title.data = article.title
-    form.body.data = article.body
-    return render_template('edit_article.html', form=form)
+    # form = ArticleForm()
+    # article = Article.query.filter_by(id=article_id).first()
+    #
+    # if form.validate_on_submit():
+    #     article.title = form.title.data
+    #     article.body = form.body.data
+    #     db.session.add(article)
+    #     db.session.commit()
+    #     return redirect(url_for("get_article", article_id=article.id))
+    #
+    # form.title.data = article.title
+    # form.body.data = article.body
+    # return render_template('edit_article_false.html', form=form)
+    data = Article.query.filter_by(id=article_id).first().body
+    # print(data)
+    # data = data.encode("utf-8")
+    print(data)
+    # return render_template('article.html', title=data, articles=article_id)
+    return render_template('edit_article.html', title='Редактирование статьи', data=data, article_id=article_id)
 
 
 # Поиск статей

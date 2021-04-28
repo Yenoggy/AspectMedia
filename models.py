@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 
-
 db = SQLAlchemy()
+
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -15,10 +15,12 @@ class User(db.Model):
     def __repr__(self):
         return '<User %r>' % self.nickname
 
+
 class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(1000), unique=False, nullable=False)
     body = db.Column(db.Text(), unique=False, nullable=True)
+    announcement = db.Column(db.String(1000), unique=False, nullable=True)
     user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('articles', lazy=True))
 
