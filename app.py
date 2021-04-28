@@ -61,9 +61,10 @@ def new_article(article_id):
     #     return redirect(url_for('get_article', article_id=article.id))
     # return render_template('new_article.html', form=form)
     if request.method == 'POST':
-        results = json.loads(request.data)
-        print(results)
-        return json.dumps(results)
+        results = request.data
+        print(results.decode("utf-8"))
+        # return json.dumps(results)
+        return results
     with open('file.json', 'w') as f:
         json.dump(request.form, f)
     return render_template('edit_article.html', article_id=article_id)
